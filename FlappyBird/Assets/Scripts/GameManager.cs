@@ -10,22 +10,25 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timeText;
     public float time;
 
+    private float timeValue;
+
     void Start()
     {
         Time.timeScale = 1f;
+        GetPlayerTime();
     }
 
 
     void Update()
     {
         time += Time.deltaTime;
+        PlayerPrefs.SetFloat("timeValue",time);
         timeText.text = "Time: " + Mathf.Clamp(Mathf.CeilToInt(time), 0, int.MaxValue).ToString(); //zaokr¹glanie czasu do góry, nie bêdzie przecinka, bêd¹ typu ca³kowitego
-        
-        if(time <= 0)
+
+        if (time <= 0)
         {
             RestartLevel();
-        }
-        
+        } 
     }
     public void RestartLevel()
     {
@@ -36,4 +39,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(index);
     }
 
+    public void GetPlayerTime()
+    {
+        timeValue = PlayerPrefs.GetFloat("timeValue", 0);
+    }
+   
+
 }
+
